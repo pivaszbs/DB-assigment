@@ -18,6 +18,7 @@ class CarModel(BaseModel):
     CMID = IntegerField(unique=True)
     name = CharField()
     power = IntegerField()
+    color = CharField()
 
 
 class Car(CarModel):
@@ -83,3 +84,5 @@ def create_tables():
     with db:
         db.create_tables([Charging, Socket, Workshop, Charging, ChargingStation,
                           Customer, Provider, Car, Rent, Repairing, ProvideParts])
+
+
