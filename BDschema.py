@@ -25,7 +25,7 @@ class CarModel(BaseModel):
     color = CharField()
 
 
-class ResidentialAdress(BaseModel):
+class ResidentialAddress(BaseModel):
     country = CharField()
     city = CharField()
     zip = IntegerField(primary_key=True)
@@ -68,7 +68,7 @@ def generate_provider():
 class Customer(BaseModel):
     phone = CharField()
     email = CharField(unique=True)
-    residential_adress = ForeignKeyField(ResidentialAdress, field='zip')
+    residential_address = ForeignKeyField(ResidentialAddress, field='zip')
     username = CharField(primary_key=True)
     full_name = CharField()
 
@@ -91,12 +91,12 @@ def generate_customer():
                         email=email, name=names[ri(0, len(names) - 1)])
 
 
-def generate_residential_adress():
+def generate_residential_address():
     countries = ["Russia", "Africa", "America", "TrampsCountry",
                  "PutinsCountry", "China", "World", "England", "Germany", "USSR"]
     cities = ["Vladivostok", "Moscow", "PutinGrad", "KimChenIn", "EmeraldCity",
               "Dzen", "SPB", "Innopolis", "Gorod", "Zelenodolsk"]
-    ResidentialAdress.create(country=countries[ri(0, len(countries) - 1)],
+    ResidentialAddress.create(country=countries[ri(0, len(countries) - 1)],
                              city=cities[ri(0, len(cities) - 1)])
 
 
@@ -164,5 +164,5 @@ class ProvideParts(BaseModel):
 
 def create_tables():
     with db:
-        db.create_tables([Charging, Socket, ResidentialAdress, Workshop, Charging, ChargingStation,
+        db.create_tables([Charging, Socket, ResidentialAddress, Workshop, Charging, ChargingStation,
                           Customer, Provider, Car, Rent, Repairing, ProvideParts])
