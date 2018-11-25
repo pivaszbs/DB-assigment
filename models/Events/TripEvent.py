@@ -6,7 +6,7 @@ from models.ChargingStation import ChargingStation
 from models.WorkShop import Workshop
 
 
-class ChargingEvent(BaseModel):
+class TripEvent(BaseModel):
     event_id = IntegerField(primary_key=True)
     customer = ForeignKeyField(Customer)
     car = ForeignKeyField(Car)
