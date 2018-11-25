@@ -1,0 +1,2 @@
+select * from Car where color="green"
+select * from Car where color="brown"

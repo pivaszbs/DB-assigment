@@ -159,6 +159,7 @@ class Repairing(BaseModel):
 
 
 class ProvideParts(BaseModel):
+   # provider = ForeignKeyField(Provider, backref='')
     pass
 
 
@@ -166,3 +167,14 @@ def create_tables():
     with db:
         db.create_tables([Charging, Socket, ResidentialAddress, Workshop, Charging, ChargingStation,
                           Customer, Provider, Car, Rent, Repairing, ProvideParts])
+
+
+def execute_queries():
+    cursor = db.cursor()
+    f = open("queries.txt")
+    for query in f.readlines():
+        print(*cursor.execute(query))
+
+#create_tables()
+generate_random_car()
+execute_queries()
