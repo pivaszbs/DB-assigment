@@ -10,19 +10,20 @@ from models.ResidentalAddress import ResidentialAddress
 from models.ChargingStation import ChargingStation
 from models.Socket import Socket
 from models.WorkShop import Workshop
-from models.Relations import Rent
 from models.Relations.Charging import Charging
 from models.Relations.ProvideParts import ProvideParts
-from models.Event import Event
 from models.Relations.Repairing import Repairing
 from models.BaseModel import db
+from models.Events.ChargingEvent import ChargingEvent
+from models.Events.RepairingEvent import RepairingEvent
+from models.Events.TripEvent import TripEvent
 import DataGenerator
 
 
 def create_tables():
     with db:
         db.create_tables([Charging, Socket, ResidentialAddress, Workshop, ChargingStation,
-                          Customer, Provider, Car, Repairing, ProvideParts, Event])
+                          Customer, Provider, Car, Repairing, ProvideParts, ChargingEvent, RepairingEvent, TripEvent])
 
 
 def execute_queries():
@@ -40,4 +41,4 @@ DataGenerator.generate_residential_address()
 DataGenerator.generate_provider()
 DataGenerator.generate_customer()
 DataGenerator.generate_charging_station()
-execute_queries()
+#execute_queries()

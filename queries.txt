@@ -1,7 +1,1 @@
-select * from Car
-select * from Workshop
-select * from Socket
-select * from ResidentialAddress
-select * from Provider
-select * from Customer
-select * from ChargingStation
+(select pickup_location, count(*) from TripEvent where HOUR(time)<=10 AND HOUR(time)>=7) ORDER BY

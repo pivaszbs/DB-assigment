@@ -12,5 +12,5 @@ class TripEvent(BaseModel):
     car = ForeignKeyField(Car)
     pickup_time = DateTimeField()
     end_time = DateTimeField()
-    pickup_location = FloatField() # TODO: class location
-    destination_location = FloatField()
+    pickup_location = CharField()
+    destination_location = CharField()
