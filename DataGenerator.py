@@ -45,12 +45,14 @@ def generate_customer():
     names = ["Jon", "Yak", "Bob", "Mo", "Ivan", "Lucifer", "Manyak", "Serdol", "Sanek", "Christopher"]
     try:
         Customer.create(phone_number=phone_number, username=username,
-                        email=email, name=names[ri(0, len(names) - 1)])
+                        residential_address=ResidentialAddress.get_by_id(ri(1, ResidentialAddress.select().count())), email=email,
+                        full_name=names[ri(0, len(names) - 1)])
     except KeyError as error:
         username += str(ri(0, 9999999))
         email = username + "@" + domains[ri(0, len(domains) - 1)]
         Customer.create(phone_number=phone_number, username=username,
-                        email=email, name=names[ri(0, len(names) - 1)])
+                        residential_address=ResidentialAddress.get_by_id(ri(1, ResidentialAddress.select().count())), email=email,
+                        full_name=names[ri(0, len(names) - 1)])
 
 
 def generate_residential_address():
@@ -59,7 +61,7 @@ def generate_residential_address():
     cities = ["Vladivostok", "Moscow", "PutinGrad", "KimChenIn", "EmeraldCity",
               "Dzen", "SPB", "Innopolis", "Gorod", "Zelenodolsk"]
     ResidentialAddress.create(country=countries[ri(0, len(countries) - 1)],
-                             city=cities[ri(0, len(cities) - 1)])
+                              city=cities[ri(0, len(cities) - 1)])
 
 
 def generate_charging_station():
@@ -82,5 +84,4 @@ def generate_socket():
 
 def generate_workshop():
     availability_of_timing = datetime.timedelta(hours=randrange(100, 500))
-    print(availability_of_timing)
     Workshop.create(availability_of_timing=availability_of_timing)

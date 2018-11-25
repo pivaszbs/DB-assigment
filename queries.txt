@@ -1,2 +1,7 @@
 select * from Car
 select * from Workshop
+select * from Socket
+select * from ResidentialAddress
+select * from Provider
+select * from Customer
+select * from ChargingStation
