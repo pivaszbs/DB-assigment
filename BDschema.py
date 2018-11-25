@@ -34,4 +34,5 @@ def execute_queries():
 
 create_tables()
 DataGenerator.generate_car()
+DataGenerator.generate_workshop()
 execute_queries()

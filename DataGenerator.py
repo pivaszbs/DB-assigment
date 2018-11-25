@@ -82,4 +82,5 @@ def generate_socket():
 
 def generate_workshop():
     availability_of_timing = datetime.timedelta(hours=randrange(100, 500))
+    print(availability_of_timing)
     Workshop.create(availability_of_timing=availability_of_timing)

@@ -1,2 +1,2 @@
 select * from Car
-select * from Car where color="brown"
+select * from Workshop
