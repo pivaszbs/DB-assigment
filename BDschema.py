@@ -155,18 +155,31 @@ class Rent(BaseModel):
 
 
 class Repairing(BaseModel):
-    pass
+    workshop = ForeignKeyField(Workshop)
+    car = ForeignKeyField(Car)
+    customer = ForeignKeyField(Customer)
 
 
 class ProvideParts(BaseModel):
-   # provider = ForeignKeyField(Provider, backref='')
-    pass
+    provider = ForeignKeyField(Provider)
+    workshop = ForeignKeyField(Workshop)
+
+
+class Event(BaseModel):
+    event_id = IntegerField(primary_key=True)
+    type = CharField()
+    customer = ForeignKeyField(Customer)
+    workshop = ForeignKeyField(Workshop)
+    start_time = datetime()
+    end_time = datetime()
+    pickup_location = FloatField() # TODO: create class location ?
+    destination_location = FloatField()
 
 
 def create_tables():
     with db:
         db.create_tables([Charging, Socket, ResidentialAddress, Workshop, Charging, ChargingStation,
-                          Customer, Provider, Car, Rent, Repairing, ProvideParts])
+                          Customer, Provider, Car, Rent, Repairing, ProvideParts, Event])
 
 
 def execute_queries():
