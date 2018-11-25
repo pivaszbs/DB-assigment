@@ -7,5 +7,5 @@ class Customer(BaseModel):
     phone_number = CharField()
     email = CharField(unique=True)
     residential_address = ForeignKeyField(ResidentialAddress, field='zip')
-    username = CharField(primary_key=True)
+    username = CharField()
     full_name = CharField()
