@@ -21,12 +21,19 @@ def generate_car():
     mark = ["Tesla", "HipsterCar", "Lambargingi", "LADA", "BMW",
             "Audi", "Mersedes", "YoYoMobil", "SashaGrayCar", "ElectroZaporozhec"]
 
+    plate = ''
+    plate += chr(ord('A') + ri(0, 25))
+    plate += chr(ord('A') + ri(0, 25))
+
+    for i in range(4):
+        plate += chr(ord('0') + ri(0, 9))
+
     name = mark[ri(0, len(mark) - 1)] + "Special electic edition " + str(i)
     power = ri(50, 500)
     color = colour[ri(0, len(colour) - 1)]
     location = [str(i) + "room" for i in range(100, 131)]
     loc = location[ri(0, 30)]
-    Car.create(location=loc, name=name, power=power, color=color)
+    Car.create(location=loc, name=name, power=power, color=color, plate=plate)
 
 
 def generate_provider():
@@ -116,7 +123,9 @@ def generate_repairing_event():
 
 
 def generate_charging_event():
-    time = datetime.datetime(year=ri(2000, 2018), month=ri(1, 12), day=ri(1, 28), hour=ri(0, 23), minute=ri(0, 59),
+    #time = datetime.datetime(year=ri(2000, 2018), month=ri(1, 12), day=ri(1, 28), hour=ri(0, 23), minute=ri(0, 59),
+    #                         second=ri(0, 59))
+    time = datetime.datetime(year=2018, month=5, day=ri(1, 10), hour=ri(0, 23), minute=ri(0, 59),
                              second=ri(0, 59))
     ChargingEvent.create(time=time, car=Car.get_by_id(ri(1, Car.select().count())),
                          customer=Customer.get_by_id(ri(1, Customer.select().count())),
