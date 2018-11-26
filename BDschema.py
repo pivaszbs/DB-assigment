@@ -115,6 +115,8 @@ def query_4(username):
                           'customer.username FROM customer JOIN chargingevent'
                           ' on customer.c_id = chargingevent.customer_id'
                           'where username = ' + str(username) + ' GROUP BY time HAVING count(time)>1;')
+    for d in data:
+        print(d[0])
 
 
 '''QUERY 3'''
@@ -154,6 +156,7 @@ def query_9():
             most_popular_part = Part.get_by_id(most_popular_part_id).name
             count_per_week = d[1] / 52
             print('Workshop with id ' + str(workshop_id) + ' most often requires' + most_popular_part + '(about ' + str(count_per_week) + ' every week on average)')
+            break
 
 
 
@@ -172,16 +175,3 @@ DataGenerator.generate_trip_event()
 DataGenerator.generate_repairing_event()
 DataGenerator.generate_charging_event()
 
-# execute_queries()
-# query_top_3_popular_locations_for_evety_time_slot()
-# query_show_10_percent_of_less_used_cars
-# query_top_3_popular_locations_for_evety_time_slot()
-# query_show_10_percent_of_less_used_cars
-
-# query_9()
-
-# query_1()
-# query_2('2018-05-01')
-# query_3()
-# query_top_3_popular_locations_for_evety_time_slot()
-# query_show_10_percent_of_less_used_cars()

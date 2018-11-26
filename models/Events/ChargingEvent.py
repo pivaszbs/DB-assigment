@@ -10,5 +10,6 @@ class ChargingEvent(BaseModel):
     event_id = IntegerField(primary_key=True)
     customer = ForeignKeyField(Customer)
     charging_station = ForeignKeyField(ChargingStation)
+    price = IntegerField()
     car = ForeignKeyField(Car)
     time = DateTimeField()

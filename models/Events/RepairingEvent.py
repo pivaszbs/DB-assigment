@@ -12,4 +12,5 @@ class RepairingEvent(BaseModel):
     workshop = ForeignKeyField(Workshop)
     part = ForeignKeyField(Part)
     car = ForeignKeyField(Car)
+    price = IntegerField()
     time = DateTimeField()
