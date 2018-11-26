@@ -93,7 +93,7 @@ def generate_workshop():
 
 
 def generate_trip_event():
-    pickup_time = datetime.datetime(year=ri(2000, 2018), month=ri(1, 12), day=ri(1, 28), hour=ri(0, 23), minute=ri(0, 59), second=ri(0, 59))
+    pickup_time = datetime.datetime(year=ri(2015, 2018), month=ri(1, 12), day=ri(1, 28), hour=ri(0, 23), minute=ri(0, 59), second=ri(0, 59))
     end_time = (pickup_time + datetime.timedelta(hours=int(ri(1, 1000))))
     location = [str(i) + " street" for i in range(100, 131)]
     pickup_location = location[ri(0, 30)]
