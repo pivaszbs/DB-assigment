@@ -142,11 +142,18 @@ def query_3():
 
 
 
+'''QUERY 9'''
 def query_9():
     cursor = db.cursor()
     workshops = cursor.execute('SELECT WID FROM workshop')
     for w in workshops:
         workshop_id = w[0]
+        data = cursor.execute('SELECT part_id, count(part_id) FROM ( SELECT * FROM repairingevent WHERE workshop_id = 3) GROUP BY part_id ORDER BY part_id DESC LIMIT 1')
+        for d in data:
+            most_popular_part_id = d[0]
+            most_popular_part = Part.get_by_id(most_popular_part_id).name
+            count_per_week = d[1] / 52
+            print('Workshop with id ' + str(workshop_id) + ' most often requires' + most_popular_part + '(about ' + str(count_per_week) + ' every week on average)')
 
 
 
@@ -171,7 +178,7 @@ DataGenerator.generate_charging_event()
 # query_top_3_popular_locations_for_evety_time_slot()
 # query_show_10_percent_of_less_used_cars
 
-query_9()
+# query_9()
 
 # query_1()
 # query_2('2018-05-01')
