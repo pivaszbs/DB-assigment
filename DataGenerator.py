@@ -21,12 +21,19 @@ def generate_car():
     mark = ["Tesla", "HipsterCar", "Lambargingi", "LADA", "BMW",
             "Audi", "Mersedes", "YoYoMobil", "SashaGrayCar", "ElectroZaporozhec"]
 
+    plate = ''
+    plate += chr(ord('A') + ri(0, 25))
+    plate += chr(ord('A') + ri(0, 25))
+
+    for i in range(4):
+        plate += chr(ord('0') + ri(0, 9))
+
     name = mark[ri(0, len(mark) - 1)] + "Special electic edition " + str(i)
     power = ri(50, 500)
     color = colour[ri(0, len(colour) - 1)]
     location = [str(i) + "room" for i in range(100, 131)]
     loc = location[ri(0, 30)]
-    Car.create(location=loc, name=name, power=power, color=color)
+    Car.create(location=loc, name=name, power=power, color=color, plate=plate)
 
 
 def generate_provider():

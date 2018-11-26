@@ -66,16 +66,17 @@ def query_show_10_percent_of_less_used_cars():
 
 create_tables()
 
-DataGenerator.generate_car()
-DataGenerator.generate_workshop()
-DataGenerator.generate_socket()
-DataGenerator.generate_residential_address()
-DataGenerator.generate_provider()
-DataGenerator.generate_customer()
-DataGenerator.generate_charging_station()
-DataGenerator.generate_trip_event()
-DataGenerator.generate_repairing_event()
-DataGenerator.generate_charging_event()
+for i in range(50):
+    DataGenerator.generate_car()
+    DataGenerator.generate_workshop()
+    DataGenerator.generate_socket()
+    DataGenerator.generate_residential_address()
+    DataGenerator.generate_provider()
+    DataGenerator.generate_customer()
+    DataGenerator.generate_charging_station()
+    DataGenerator.generate_trip_event()
+    DataGenerator.generate_repairing_event()
+    DataGenerator.generate_charging_event()
 # execute_queries()
 
 #query_top_3_popular_locations_for_evety_time_slot()
