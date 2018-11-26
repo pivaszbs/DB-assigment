@@ -116,6 +116,30 @@ def query_4(username):
                           'where username = ' + str(username) + ' GROUP BY time HAVING count(time)>1;')
 
 
+'''QUERY 3'''
+
+
+def query_3():
+    cursor = db.cursor()
+    data = cursor.execute('SELECT Morning, Afternoon, Evening '
+                          'FROM ( SELECT count(*) * 100 / (SELECT count(*) FROM car) AS \'Morning\' '
+                          'FROM tripevent WHERE (CAST(strftime(\'%H\', pickup_time) AS INT) >= 7 AND '
+                          'CAST(strftime(\'%H\', pickup_time) AS INT) < 10) OR (CAST(strftime(\'%H\', end_time) AS INT)'
+                          ' >= 7 AND CAST(strftime(\'%H\', end_time) AS INT) < 10)), '
+                          '(SELECT count(*) * 100 / (SELECT count(*) FROM car) AS \'Afternoon\' FROM tripevent '
+                          'WHERE (CAST(strftime(\'%H\', pickup_time) AS INT) >= 12 AND CAST(strftime(\'%H\', pickup_time)' \
+                          ' AS INT) < 14) OR (CAST(strftime(\'%H\', end_time) AS INT) >= 12 '
+                          'AND CAST(strftime(\'%H\', end_time) AS INT) < 14)), (SELECT count(*) * 100 / (SELECT count(*)'
+                          ' FROM car) AS \'Evening\' FROM tripevent WHERE (CAST(strftime(\'%H\', pickup_time) AS INT) ' \
+                          '>= 17 AND CAST(strftime(\'%H\', pickup_time) AS INT) < 19) OR ' \
+                          '(CAST(strftime(\'%H\', end_time) AS INT) >= 17 AND CAST(strftime(\'%H\', end_time) AS INT) < 19))')
+    for d in data:
+        for i in range(3):
+            print(data.description[i][0])
+            print(d[i])
+            print()
+
+
 create_tables()
 
 for i in range(500):
@@ -143,3 +167,9 @@ for i in range(500):
 # query_show_10_percent_of_less_used_cars
 # query_top_3_popular_locations_for_evety_time_slot()
 # query_show_10_percent_of_less_used_cars
+
+# query_1()
+# query_2('2018-05-01')
+# query_3()
+# query_top_3_popular_locations_for_evety_time_slot()
+# query_show_10_percent_of_less_used_cars()
