@@ -30,6 +30,8 @@ def execute_queries():
 
 
 '''QUERY 6'''
+
+
 def query_top_3_popular_locations_for_evety_time_slot():
     cursor = db.cursor()
     time_slots = [(7, 10), (12, 14), (17, 19)]
@@ -40,12 +42,18 @@ def query_top_3_popular_locations_for_evety_time_slot():
         print('Top-3 pickup locations:')
         time_from = time_slots[time_slot][0]
         time_to = time_slots[time_slot][1]
-        locations = cursor.execute(str('SELECT pickup_location, count(pickup_location) FROM tripevent WHERE CAST(strftime(\'%H\', pickup_time) AS INT) >= ' + str(time_from) + ' AND CAST(strftime(\'%H\', pickup_time) AS INT) < ' + str(time_to) + ' GROUP BY pickup_location ORDER BY count(pickup_location) DESC LIMIT 3'))
+        locations = cursor.execute(str(
+            'SELECT pickup_location, count(pickup_location) FROM tripevent WHERE CAST(strftime(\'%H\', pickup_time) AS INT) >= ' + str(
+                time_from) + ' AND CAST(strftime(\'%H\', pickup_time) AS INT) < ' + str(
+                time_to) + ' GROUP BY pickup_location ORDER BY count(pickup_location) DESC LIMIT 3'))
         for loc in locations:
             print(loc[0] + ' (' + str(loc[1]) + ' times)')
 
         print('\nTop-3 destination locations:')
-        locations = cursor.execute(str('SELECT destination_location, count(destination_location) FROM tripevent WHERE CAST(strftime(\'%H\', pickup_time) AS INT) >= ' + str(time_from) + ' AND CAST(strftime(\'%H\', pickup_time) AS INT) < ' + str(time_to) + ' GROUP BY destination_location ORDER BY count(destination_location) DESC LIMIT 3'))
+        locations = cursor.execute(str(
+            'SELECT destination_location, count(destination_location) FROM tripevent WHERE CAST(strftime(\'%H\', pickup_time) AS INT) >= ' + str(
+                time_from) + ' AND CAST(strftime(\'%H\', pickup_time) AS INT) < ' + str(
+                time_to) + ' GROUP BY destination_location ORDER BY count(destination_location) DESC LIMIT 3'))
         for loc in locations:
             print(loc[0] + ' (' + str(loc[1]) + ' times)')
 
@@ -53,19 +61,24 @@ def query_top_3_popular_locations_for_evety_time_slot():
 
 
 '''QUERY 7'''
+
+
 def query_show_10_percent_of_less_used_cars():
     cursor = db.cursor()
     cursor.execute('create table table1 (car_id integer,counter integer)')
-    cursor.execute('insert into table1 SELECT car_id, 0 AS counter FROM car WHERE car_id NOT IN ( SELECT car_id FROM (SELECT car_id, count(car_id) FROM tripevent WHERE datetime(pickup_time, \'+2 years\') >= datetime(\'now\') GROUP BY car_id))')
-    cursor.execute('insert into table1 SELECT car_id, count(car_id) as counter FROM tripevent WHERE datetime(pickup_time, \'+2 years\') >= datetime(\'now\') GROUP BY car_id')
+    cursor.execute(
+        'insert into table1 SELECT car_id, 0 AS counter FROM car WHERE car_id NOT IN ( SELECT car_id FROM (SELECT car_id, count(car_id) FROM tripevent WHERE datetime(pickup_time, \'+2 years\') >= datetime(\'now\') GROUP BY car_id))')
+    cursor.execute(
+        'insert into table1 SELECT car_id, count(car_id) as counter FROM tripevent WHERE datetime(pickup_time, \'+2 years\') >= datetime(\'now\') GROUP BY car_id')
     data = cursor.execute('select * FROM table1 ORDER BY counter LIMIT (select count(*) from table1) / 10')
     for d in data:
         print('car id: ' + str(d[0]) + '(used ' + str(d[1]) + ' times)')
     cursor.execute('DROP TABLE IF EXISTS table1')
 
 
-
 '''QUERY 1'''
+
+
 def query_1():
     cursor = db.cursor()
     data = cursor.execute('select car_id from car WHERE color=\'red\' and plate like \'OI%\'')
@@ -73,12 +86,40 @@ def query_1():
     for id in data:
         print(id[0])
 
+
 '''QUERY 2'''
+
+
 def query_2(date):
     cursor = db.cursor()
-    data = cursor.execute('SELECT strftime(\'%H\', time) || \'h-\' || strftime(\'%H\', time(time, \'+1 hour\')) || \'h: \' || count(*) from chargingevent WHERE DATE(time) = \'' + str(date) + '\' GROUP BY strftime(\'%H\', time)')
+    data = cursor.execute(
+        'SELECT strftime(\'%H\', time) || \'h-\' || strftime(\'%H\', time(time, \'+1 hour\')) || \'h: \' || count(*) from chargingevent WHERE DATE(time) = \'' + str(
+            date) + '\' GROUP BY strftime(\'%H\', time)')
     for d in data:
         print(d[0])
+
+
+'''QUERY 3'''
+def query_3():
+    cursor = db.cursor()
+    data = cursor.execute('SELECT Morning, Afternoon, Evening '
+                          'FROM ( SELECT count(*) * 100 / (SELECT count(*) FROM car) AS \'Morning\' '
+                          'FROM tripevent WHERE (CAST(strftime(\'%H\', pickup_time) AS INT) >= 7 AND '
+                          'CAST(strftime(\'%H\', pickup_time) AS INT) < 10) OR (CAST(strftime(\'%H\', end_time) AS INT)'
+                          ' >= 7 AND CAST(strftime(\'%H\', end_time) AS INT) < 10)), '
+                          '(SELECT count(*) * 100 / (SELECT count(*) FROM car) AS \'Afternoon\' FROM tripevent '
+                          'WHERE (CAST(strftime(\'%H\', pickup_time) AS INT) >= 12 AND CAST(strftime(\'%H\', pickup_time)' \
+                          ' AS INT) < 14) OR (CAST(strftime(\'%H\', end_time) AS INT) >= 12 '
+                          'AND CAST(strftime(\'%H\', end_time) AS INT) < 14)), (SELECT count(*) * 100 / (SELECT count(*)'
+                          ' FROM car) AS \'Evening\' FROM tripevent WHERE (CAST(strftime(\'%H\', pickup_time) AS INT) ' \
+                          '>= 17 AND CAST(strftime(\'%H\', pickup_time) AS INT) < 19) OR ' \
+                          '(CAST(strftime(\'%H\', end_time) AS INT) >= 17 AND CAST(strftime(\'%H\', end_time) AS INT) < 19))')
+    for d in data:
+        for i in range(3):
+            print(data.description[i][0])
+            print(d[i])
+            print()
+
 
 create_tables()
 
@@ -94,7 +135,8 @@ DataGenerator.generate_repairing_event()
 DataGenerator.generate_charging_event()
 # execute_queries()
 
-#query_1()
-query_2('2018-05-01')
-#query_top_3_popular_locations_for_evety_time_slot()
-#query_show_10_percent_of_less_used_cars
+# query_1()
+# query_2('2018-05-01')
+query_3()
+# query_top_3_popular_locations_for_evety_time_slot()
+# query_show_10_percent_of_less_used_cars
