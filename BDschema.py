@@ -52,6 +52,16 @@ def query_top_3_popular_locations_for_evety_time_slot():
         print('\n')
 
 
+'''QUERY 7'''
+def query_show_10_percent_of_less_used_cars():
+    cursor = db.cursor()
+    cursor.execute('create table table1 (car_id integer,counter integer)')
+    cursor.execute('insert into table1 SELECT car_id, 0 AS counter FROM car WHERE car_id NOT IN ( SELECT car_id FROM (SELECT car_id, count(car_id) FROM tripevent WHERE datetime(pickup_time, \'+2 years\') >= datetime(\'now\') GROUP BY car_id))')
+    cursor.execute('insert into table1 SELECT car_id, count(car_id) as counter FROM tripevent WHERE datetime(pickup_time, \'+2 years\') >= datetime(\'now\') GROUP BY car_id')
+    data = cursor.execute('select * FROM table1 ORDER BY counter LIMIT (select count(*) from table1) / 10')
+    for d in data:
+        print('car id: ' + str(d[0]) + '(used ' + str(d[1]) + ' times)')
+    cursor.execute('DROP TABLE IF EXISTS table1')
 
 
 create_tables()
@@ -68,4 +78,5 @@ DataGenerator.generate_repairing_event()
 DataGenerator.generate_charging_event()
 # execute_queries()
 
-query_top_3_popular_locations_for_evety_time_slot()
+#query_top_3_popular_locations_for_evety_time_slot()
+#query_show_10_percent_of_less_used_cars
