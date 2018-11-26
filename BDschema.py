@@ -76,8 +76,9 @@ def query_show_10_percent_of_less_used_cars():
     cursor.execute('DROP TABLE IF EXISTS table1')
 
 
-
 '''QUERY 1'''
+
+
 def query_1():
     cursor = db.cursor()
     data = cursor.execute('select car_id from car WHERE color=\'red\' and plate like \'OI%\'')
@@ -85,25 +86,60 @@ def query_1():
     for id in data:
         print(id[0])
 
+
 '''QUERY 2'''
+
+
+def query_5(date):
+    cursor = db.cursor()
+    data = cursor.execute('select cast(AVG(distance_to_user) as INT) as [Average distance(m)],  cast(AVG(trip_duration)'
+                          'as int) as [Average trip duration (min)] from tripevent where date(pickup_time)=' + str(
+        date))
+    for d in data:
+        print(d)
+
+
 def query_2(date):
     cursor = db.cursor()
-    data = cursor.execute('SELECT strftime(\'%H\', time) || \'h-\' || strftime(\'%H\', time(time, \'+1 hour\')) || \'h: \' || count(*) from chargingevent WHERE DATE(time) = \'' + str(date) + '\' GROUP BY strftime(\'%H\', time)')
+    data = cursor.execute(
+        'SELECT strftime(\'%H\', time) || \'h-\' || strftime(\'%H\', time(time, \'+1 hour\')) || \'h: \' || count(*) from chargingevent WHERE DATE(time) = \'' + str(
+            date) + '\' GROUP BY strftime(\'%H\', time)')
     for d in data:
         print(d[0])
+
+
+def query_4(username):
+    cursor = db.cursor()
+    data = cursor.execute('SELECT count(time) as acts, charging_station_id, car_id, residential_address_id, time,'
+                          'customer.username FROM customer JOIN chargingevent'
+                          ' on customer.c_id = chargingevent.customer_id'
+                          'where username = ' + str(username) + ' GROUP BY time HAVING count(time)>1;')
+
 
 create_tables()
 
 for i in range(500):
+    DataGenerator.generate_car()
+for i in range(500):
+    DataGenerator.generate_workshop()
+for i in range(500):
+    DataGenerator.generate_socket()
+for i in range(500):
+    DataGenerator.generate_residential_address()
+for i in range(500):
+    DataGenerator.generate_provider()
+for i in range(500):
+    DataGenerator.generate_customer()
+for i in range(500):
+    DataGenerator.generate_charging_station()
+for i in range(500):
     DataGenerator.generate_trip_event()
+for i in range(500):
+    DataGenerator.generate_repairing_event()
+for i in range(500):
+    DataGenerator.generate_charging_event()
 # execute_queries()
-
-<<<<<<< HEAD
 # query_top_3_popular_locations_for_evety_time_slot()
 # query_show_10_percent_of_less_used_cars
-=======
-#query_1()
-query_2('2018-05-01')
-#query_top_3_popular_locations_for_evety_time_slot()
-#query_show_10_percent_of_less_used_cars
->>>>>>> 8f097a8c6001d1199751510628e1a7419e342528
+# query_top_3_popular_locations_for_evety_time_slot()
+# query_show_10_percent_of_less_used_cars

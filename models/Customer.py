@@ -4,6 +4,7 @@ from models.ResidentalAddress import ResidentialAddress
 
 
 class Customer(BaseModel):
+    c_id = PrimaryKeyField()
     phone_number = CharField()
     email = CharField(unique=True)
     residential_address = ForeignKeyField(ResidentialAddress, field='zip')
