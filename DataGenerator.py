@@ -58,7 +58,7 @@ def generate_customer():
                         residential_address=ResidentialAddress.get_by_id(ri(1, ResidentialAddress.select().count())),
                         email=email,
                         full_name=names[ri(0, len(names) - 1)])
-    except:# KeyError as error:
+    except:  # KeyError as error:
         username += str(ri(0, 9999999))
         email = username + "@" + domains[ri(0, len(domains) - 1)]
         Customer.create(phone_number=phone_number, username=username,
@@ -100,14 +100,17 @@ def generate_workshop():
 
 
 def generate_trip_event():
-    pickup_time = datetime.datetime(year=ri(2015, 2018), month=ri(1, 12), day=ri(1, 28), hour=ri(0, 23), minute=ri(0, 59), second=ri(0, 59))
+    pickup_time = datetime.datetime(year=ri(2015, 2018), month=ri(1, 12), day=ri(1, 28), hour=ri(0, 23),
+                                    minute=ri(0, 59), second=ri(0, 59))
     end_time = (pickup_time + datetime.timedelta(hours=int(ri(1, 1000))))
     location = [str(i) + " street" for i in range(100, 131)]
     pickup_location = location[ri(0, 30)]
     destination_location = location[ri(0, 30)]
+    distance_to_user = ri(0, 30000)
+    trip_duration = ri(0, 2400)
     TripEvent.create(pickup_location=pickup_location, pickup_time=pickup_time, end_time=end_time,
                      destination_location=destination_location, car=Car.get_by_id(
-            ri(1, Car.select().count())),
+            ri(1, Car.select().count())), distance_to_user=distance_to_user, trip_duration=trip_duration,
                      customer=Customer.get_by_id(ri(1, Customer.select().count())))
 
 

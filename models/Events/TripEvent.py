@@ -2,8 +2,6 @@ from peewee import *
 from models.BaseModel import BaseModel
 from models.Customer import Customer
 from models.Car import Car
-from models.ChargingStation import ChargingStation
-from models.WorkShop import Workshop
 
 
 class TripEvent(BaseModel):
@@ -14,3 +12,5 @@ class TripEvent(BaseModel):
     end_time = DateTimeField()
     pickup_location = CharField()
     destination_location = CharField()
+    distance_to_user = IntegerField()
+    trip_duration = IntegerField()
