@@ -14,12 +14,13 @@ from models.Events.ChargingEvent import ChargingEvent
 from models.Events.RepairingEvent import RepairingEvent
 from models.Events.TripEvent import TripEvent
 import DataGenerator
+from models.Part import Part
 
 
 def create_tables():
     with db:
         db.create_tables([Charging, Socket, ResidentialAddress, Workshop, ChargingStation,
-                          Customer, Provider, Car, Repairing, ProvideParts, ChargingEvent, RepairingEvent, TripEvent])
+                          Customer, Provider, Car, Repairing, ProvideParts, ChargingEvent, RepairingEvent, TripEvent, Part])
 
 
 def execute_queries():
@@ -140,33 +141,37 @@ def query_3():
             print()
 
 
+
+def query_9():
+    cursor = db.cursor()
+    workshops = cursor.execute('SELECT WID FROM workshop')
+    for w in workshops:
+        workshop_id = w[0]
+
+
+
 create_tables()
 
-for i in range(500):
-    DataGenerator.generate_car()
-for i in range(500):
-    DataGenerator.generate_workshop()
-for i in range(500):
-    DataGenerator.generate_socket()
-for i in range(500):
-    DataGenerator.generate_residential_address()
-for i in range(500):
-    DataGenerator.generate_provider()
-for i in range(500):
-    DataGenerator.generate_customer()
-for i in range(500):
-    DataGenerator.generate_charging_station()
-for i in range(500):
-    DataGenerator.generate_trip_event()
-for i in range(500):
-    DataGenerator.generate_repairing_event()
-for i in range(500):
-    DataGenerator.generate_charging_event()
+#for i in range(100):
+DataGenerator.generate_car()
+DataGenerator.generate_workshop()
+DataGenerator.generate_socket()
+DataGenerator.generate_residential_address()
+DataGenerator.generate_part()
+DataGenerator.generate_provider()
+DataGenerator.generate_customer()
+DataGenerator.generate_charging_station()
+DataGenerator.generate_trip_event()
+DataGenerator.generate_repairing_event()
+DataGenerator.generate_charging_event()
+
 # execute_queries()
 # query_top_3_popular_locations_for_evety_time_slot()
 # query_show_10_percent_of_less_used_cars
 # query_top_3_popular_locations_for_evety_time_slot()
 # query_show_10_percent_of_less_used_cars
+
+query_9()
 
 # query_1()
 # query_2('2018-05-01')

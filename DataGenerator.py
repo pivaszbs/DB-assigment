@@ -13,6 +13,7 @@ from models.WorkShop import Workshop
 from models.Events.TripEvent import TripEvent
 from models.Events.RepairingEvent import RepairingEvent
 from models.Events.ChargingEvent import ChargingEvent
+from models.Part import Part
 
 
 def generate_car():
@@ -43,6 +44,12 @@ def generate_provider():
     name = names[ri(0, len(names) - 1)]
     phone_number = "880055" + (str(ri(2, 9) * 10) + "5") * 2
     Provider.create(name=name, phone_number=phone_number)
+
+
+def generate_part():
+    names = ['Wheel', 'Roof', 'Door', 'Bagazhnik', 'Kapot', 'Engine', 'Glass', 'Rul', 'Lamp', 'Fara', 'Ruchka']
+    name = names[ri(0, len(names) - 1)] + ' ' + chr(ord('A') + ri(0, 25)) + str(ri(0, 2000))
+    Part.create(name=name)
 
 
 def generate_customer():
@@ -119,7 +126,7 @@ def generate_repairing_event():
                              second=ri(0, 59))
     RepairingEvent.create(time=time, customer=Customer.get_by_id(ri(1, Customer.select().count())),
                           workshop=Workshop.get_by_id(ri(1, Workshop.select().count())), car=Car.get_by_id(
-            ri(1, Car.select().count())))
+            ri(1, Car.select().count())), part=Part.get_by_id(ri(1, Part.select().count())))
 
 
 def generate_charging_event():
