@@ -1,0 +1,17 @@
+SELECT
+  'morning' as 'period',
+  *
+FROM
+  (SELECT
+     pickup_location,
+     count(pickup_location)
+   FROM tripevent
+   WHERE
+     CAST(strftime('%H', pickup_time) AS INT) >= 7 AND CAST(strftime('%H', pickup_time) AS INT) < 10
+   GROUP BY pickup_location
+   ORDER BY count(pickup_location)
+     DESC
+   LIMIT 3)
+
+
+
