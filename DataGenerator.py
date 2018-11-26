@@ -120,7 +120,9 @@ def generate_repairing_event():
 
 
 def generate_charging_event():
-    time = datetime.datetime(year=ri(2000, 2018), month=ri(1, 12), day=ri(1, 28), hour=ri(0, 23), minute=ri(0, 59),
+    #time = datetime.datetime(year=ri(2000, 2018), month=ri(1, 12), day=ri(1, 28), hour=ri(0, 23), minute=ri(0, 59),
+    #                         second=ri(0, 59))
+    time = datetime.datetime(year=2018, month=5, day=ri(1, 10), hour=ri(0, 23), minute=ri(0, 59),
                              second=ri(0, 59))
     ChargingEvent.create(time=time, car=Car.get_by_id(ri(1, Car.select().count())),
                          customer=Customer.get_by_id(ri(1, Customer.select().count())),

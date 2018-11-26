@@ -73,6 +73,12 @@ def query_1():
     for id in data:
         print(id[0])
 
+'''QUERY 2'''
+def query_2(date):
+    cursor = db.cursor()
+    data = cursor.execute('SELECT strftime(\'%H\', time) || \'h-\' || strftime(\'%H\', time(time, \'+1 hour\')) || \'h: \' || count(*) from chargingevent WHERE DATE(time) = \'' + str(date) + '\' GROUP BY strftime(\'%H\', time)')
+    for d in data:
+        print(d[0])
 
 create_tables()
 
@@ -88,6 +94,7 @@ DataGenerator.generate_repairing_event()
 DataGenerator.generate_charging_event()
 # execute_queries()
 
-query_1()
+#query_1()
+query_2('2018-05-01')
 #query_top_3_popular_locations_for_evety_time_slot()
 #query_show_10_percent_of_less_used_cars
